@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <style>
+        .red{
+            color:red;
+        }
+
+        .thin{
+            font-weight: 100;
+        }
+
+        .italic{
+            font-style:italic;
+
+        }
+
+        .active{
+            letter-spacing:0.5em;
+        }
+        /* 中文字符间距：letter-spacing,英文字符间距:word-spacing */
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 操作dom -->
+        <h1 class="red thin">这是一个很大很大的h1</h1>
+        <!-- 第一种 vue的样式，用数组:class="['','']" -->
+        <h1 v-bind:class="['red','italic','thin']">这个第二个很大很大的h1</h1>
+        <!-- 第二种vue的样式,在数组中使用三元表达式 -->
+        <h1 :class="['thin','red','italic',flag?'active':'']">这是第三个</h1>
+        <!-- 第三种vue样式,用对象来代替三元表达式 -->
+        <h1 :class="['thin','red',{'active':flag}]">这是第四个</h1>
+        <h1 :class=classObj>这是第五个</h1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                flag:false,
+                classObj:{red:true,active:true,italic:false,thin:true}
+
+            },
+            methods:{}
+        })
+    </script>
+    
+</body>
+</html>

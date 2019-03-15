@@ -1,0 +1,3 @@
+运行sudo npm i nrm -g，全局安装nrm包
+使用nrm查看当前所有可用的镜像源地址
+使用nrm use npm /nrm use taobao切换不同镜像源地址

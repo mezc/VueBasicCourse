@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <script src="./lib/vue-router-3.0.1.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <myCom></myCom> -->
+        <!-- 父组件传data给子组件用属性绑定传递v-bind,父组件传递方法methods用事件绑定@click -->
+        <com1 v-bind:parentmsg="msg" @func="getSonMsg"></com1>
+    </div>
+
+    <template id="tmp1">
+        <div>
+            <!-- {{parentmsg}}由com1中props中来 -->
+            <h1>这是子组件的template---{{parentmsg}}</h1>
+            <input type="button" value="子组件的方法传递给父组件" @click="sendMsg">
+        </div>
+    </template>
+
+    <script>
+
+        // 子组件
+        var com1 = {
+            template:"#tmp1",
+            data(){
+                return {
+                    sonMsg:"这是子组件的数据，要传递给父组件"
+                }
+            },
+            //继承父组件的数据
+            props:['parentmsg'],
+            methods:{
+                sendMsg(){
+                    this.$emit("func",this.sonMsg)
+                }
+            }
+        }
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"这是父组件中的数据",
+                msgFromSon:""
+            },
+            methods:{
+                // 子组件传递子组件的数据交给变量data
+                getSonMsg(data){
+                    this.msgFromSon = data
+                    console.log(this.msgFromSon)
+                }
+            },
+            components:{
+                // myCom:com1
+                com1:com1
+            }
+        })
+    </script>
+    
+</body>
+</html>

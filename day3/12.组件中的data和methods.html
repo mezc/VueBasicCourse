@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <mycom1></mycom1>
+        <hr>
+        <mycom1></mycom1>
+        <hr>
+    </div>
+    <!-- mycom1的template -->
+    <template id='mycom1'>
+        <div>
+            <!-- <h1>
+                    {{msg}}
+            </h1> -->
+            <input type="button" value="-1" @click="decrease">
+            {{count}}
+            <input type="button" value="+1" @click="increase">
+     
+        </div>
+    </template>
+
+    <script>
+        // 组件中的data属性 template:,data:function(){return{msg}}
+        Vue.component("mycom1",{
+            template:"#mycom1",
+            data:function(){
+                return {
+                    // msg:"这是mycom1的data"
+                    count:0
+                }
+                
+            },
+            methods:{
+                increase(){
+                    this.count += 1
+                },
+                decrease(){
+                    this.count--
+                }
+            }
+        })
+        var vm = new Vue({
+            el:"#app",
+            data:{
+            },
+            methods:{}
+        })
+    </script>
+    
+</body>
+</html>

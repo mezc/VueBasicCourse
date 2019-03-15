@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="修改msg" @click="msg='No'">
+        <h3 v-text="msg" id="h3"></h3>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"ok"
+            },
+            methods:{
+                show(){
+                    console.log("执行了show方法")
+                }
+            },
+            beforeCreate(){
+                //在beforeCreate中，生命周期函数执行时，data和methods中的数据还未被初始化
+                // console.log(this.msg)
+                // console.log(this.show())
+
+            },
+            created(){
+                // console.log(this.msg)
+                // this.show()
+                //如果要操作methods或data，最早在created中造作才有效
+            },
+            beforeMount(){//模版已经在内存中编辑完成，还未渲染到页面中
+                        //在beforeMount执行时，页面元素还没有被替换过来，只是一些模版字符串
+                        // console.log(document.getElementById('h3').innerText)
+            },
+            mounted(){//内存中的模版，渲染到页面中
+            //执行mounted就代表实例已经创建好了，如果没有后续操作，这个实例就一直躺在内存中
+                console.log(document.getElementById('h3').innerText)
+            },
+            
+            //修改数据，运行中的两个事件
+            beforeUpdate(){
+                //界面还没有更新，数据已经更新了
+                //界面上显示的数据是更新前的，数据是更新后的，没有保持同步
+                // console.log("界面上的元素内容:",document.getElementById('h3').innerText)
+                // console.log("data中的数据：",this.msg)
+            },
+            updated(){
+                //执行updated时，页面和data数剧已经保持一致，都是更新后的数据
+                console.log("界面上的元素",document.getElementById('h3').innerText)
+                console.log("data中的数据:",this.msg)
+            }
+        })
+    </script>
+    
+</body>
+</html>
+
+<!-- 
+    1.创建期间的生命周期函数：
+    beforeCreate
+    created
+    beforeMount
+    mounted
+
+    2.运行期间生命周期函数：
+    beforeUpdate
+    updated
+
+    3.销毁期间的生命周期函数:
+    beforeDestroy:
+    destroyed
+
+ -->

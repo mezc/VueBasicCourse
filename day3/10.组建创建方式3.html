@@ -1,0 +1,65 @@
+<!-- 模块化：从代码角度 ，方便代码分层开发，保证每个功能模块职能单一
+组件化：从ui角度，前端的组件化，方便UI组件 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 在定义时，组件名称为myCom1,在使用时转换成my-com1,用-代替大小驼峰 -->
+        <!-- 如果不使用驼峰，则直接使用名字 -->
+        <!-- <my-com1></my-com1> -->
+        <!-- <mycom2></mycom2> -->
+        <template id="tmp3">
+            <div>
+                <h1>
+                    这是通过template元素创建的组件
+                </h1>
+                <h4>good</h4>
+            </div>
+
+        </template>
+    </div>
+    <script>
+        // // 创建组件的方式1
+        // // step1:使用Vue.extend来创建全局的组件
+        // var com1 = Vue.extend({
+        //     // 通过template指定组件要展示的html结构
+        //     template:"<h3>这是使用Vue.extend创建的组件</h3>"
+        // })
+           
+        // //step2:使用Vue.component("组件的名称",创建出来的模版对象)，将组件注册成可以使用的有名称 
+        // Vue.component("myCom1",com1)
+
+
+        // 创建组件的方式2
+        // Vue.component("mycom2",{
+        //     //只能有一个根元素，如果有多个平行结构，加<div></div>包裹起来
+        //     // template:"<h3>这是创建组建的方式2</h3>"
+        //     template:"<div><h3>多个平行结构</h3><span>123</span></div>"
+        // })
+
+        // 创建组建的方式3
+        Vue.component("mycom3",{
+            template:"#tmp3"
+        })
+
+
+
+
+        var vm = new Vue({
+            el:"#app",
+            data:{},
+            methods:{}
+        })
+    
+    </script>
+    
+</body>
+</html>

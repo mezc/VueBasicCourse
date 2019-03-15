@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <script src="./lib/vue-resource-1.3.4.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 样式快捷键bs3-panel-primary -->
+        
+        <div class="panel panel-primary">
+              <div class="panel-heading">
+                    <h3 class="panel-title">添加品牌</h3>
+              </div>
+              <div class="panel-body">
+                    <label for="">
+                        Id
+                        <input type="text" v-model="id" class="form-control">
+                    </label>
+                    <label for="">
+                        Name
+                        <input type="text" v-model="name" class="form-control">
+                    </label>
+                    <input type="button" name="" id="" value="添加" @click="add" class="btn btn-primary">
+                    <label for=""></label>
+              </div>
+        </div>
+        
+
+        <!-- 样式快捷键bs3-table-bordered -->
+        <!-- table-striped隔行变色 -->
+        
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key="item.id">
+                    <td v-text="item.id"></td>
+                    <td v-text="item.name"></td>
+                    <td v-text="item.ctime"></td>
+                    <td>
+                        <a href="" @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                
+    </div>
+
+    <script>
+        // 配置全局请求数据的根域名，在每次单独发起http请求的时候，请求URL路径，应以相对路径开头，不加“/”,否则不会启用根路径
+        Vue.http.options.root = "http://vue.studyit.io/";
+        // 全局配置emulateJSON选项
+        Vue.http.options.emulateJSON = true
+        
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                id:"",
+                name:"",
+                list:[
+                    {id:1,name:"benz",ctime:new Date()},
+                    {id:2,name:"minicooper",ctime:new Date()}
+                ]
+            },
+            created(){
+                // 当vm实例的data,methods初始化完毕后，vm实例会自动执行created这个生命周期
+                this.getAllList()
+            },
+            methods:{
+                // 添加品牌
+                add(){
+                    this.$http.post("api/addproduct")
+                    // this.$http.post("http://vue.studyit.io/api/addproduct",{name:this.name},{emulateJSON:true}).then(result =>{
+                    //     if(result.body.status === 0){
+                    //         this.getAllList()
+                    //         this.name = ""
+                    //     }else{ 
+                    //         alert("添加失败")
+                    //     }
+                    // })
+                },
+                // 获取品牌数据
+                getAllList(){
+                    //获取所有品牌列表
+                    //通过this.$http.get("url").then(function(result){})发起get请求,通过then指定回调函数后,再回调函数中可以拿到服务器返回的result
+                    // 先判断result.status是否等于0，如果等于0，则成功，将result.message赋值给this.list；如果不等于0,可以弹框提醒，获取数据失败
+                    // 箭头函数：then(function(result){return result})相当于then(result =>{})
+                    this.$http.get("品牌数据列表.json").then(result => {
+                        //通过$http获取到的数据，在result.body中存放
+                        var result = result.body
+                        if(result.status === 0){
+                            this.list = result.message
+                            console.log("调用成功数据是：",result.message)
+                        }else{
+                            alert("获取数据失败")
+                        }
+                    })
+                },
+                // 删除品牌
+                del(id){
+                    this.$http.get("http://vue.studyit.io/api/delproduct/" + id).then(result => {
+                        if(result.status===0){
+                            this.getAllList()
+                        }else{
+                            alert("删除失败")
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>

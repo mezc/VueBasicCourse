@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="firstname" >+
+        <input type="text" v-model="lastname" >
+        <!-- 使用computed时，调用computed里面的方法时不加（） -->
+        <input type="text" v-model="fullname">
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                firstname:'',
+                lastname:'',
+             
+            },
+            methods:{
+            },
+            computed:{
+                // 只要computed内部所有任何data的数据发生了变化，就会重新计算这个属性的值
+                fullname:function(){
+                    return this.firstname +"-"+ this.lastname
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>

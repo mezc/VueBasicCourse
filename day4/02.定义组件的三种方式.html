@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <mylogin></mylogin>
+    </div>
+
+    <script>
+        // 全局组件Vue.component("组件名称",{template:}),私有组件用var vm = new Vue({components:{}})
+        login = {
+            template:"<h1>12345</h1>"
+        }
+        Vue.component("mylogin",login)
+        var vm = new Vue({
+            el:"#app",
+            data:{},
+            methods:{}
+
+        })
+    </script>
+    
+</body>
+</html>

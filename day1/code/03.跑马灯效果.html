@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 导入vue包 -->
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <!-- 创建一个控制区域 -->
+    <div id="app">
+        <input type="button" value="浪起来" v-on:click="lang">
+        <input type="button" value="歇着" @click = "stop">
+        <h4 v-text = "msg"></h4>
+    </div>
+    <script>
+        // 在vm中，获取data里的数据或methods里的方法,必须通过this.属性名或this.方法名访问，这里的this表示new出来的vm实例对象。
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"tony剪发馆欢迎您，理发请进！",
+                intervalId:null//在data上定义定时器id
+            },
+            methods:{
+                lang(){
+                    // console.log(this.msg)
+                    // var _this = this
+                    //原：setInterval(function(){}),去掉function,加上=> ,this就从内指向外，都指向vm实例
+                    if(this.intervalId != null) return;
+                    
+                    this.intervalId = setInterval(() => {
+                        // 获取第一个字符
+                        var startWord = this.msg.substring(0,1)
+                        //获取剩余的字符
+                        var endWord = this.msg.substring(1)
+                        // 得到新的字符串并赋值
+                        this.msg = endWord + startWord
+                        // vm实例会监听自己身上data中所有数据的改变，只要有变动会自动将最新的数据同步到页面中去
+                    }, 200)
+                },
+                stop(){
+                    clearInterval(this.intervalId)
+                    this.intervalId = null;
+                }
+            }
+                
+        })
+    </script>
+    
+</body>
+</html>

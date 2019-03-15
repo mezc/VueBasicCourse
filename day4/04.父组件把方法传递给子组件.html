@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--父组件向子组件传递的方法，使用时间绑定机制v-on:func="",不带（） -->
+        <component2 v-on:func="show"></component2>
+    </div>
+
+    <template id="tmp1">
+        <div>
+            <h1>这是子组件tmp1</h1>
+            <input type="button" value="这是子组件中的按钮，点击它触发父组件传递过来的func方法" @click="myclick">
+        </div>
+    </template>
+
+    <script>
+        //子组件
+        var com2 = {
+            template:"#tmp1",
+            data(){
+                return {
+                    sonMsg:{name:"benz",price:"free"}
+                }
+            },
+            methods:{
+                myclick(){
+                    // console.log("ok")
+                    // 通过$emit触发父组件传递过来的func方法，并调用。
+                    //$emit(1,2,3),从第二个参数开始都可以传参。
+                    // this.$emit("func","123" )  
+                    // 引用子组件中的数据，并传递给父组件
+                    this.$emit("func",this.sonMsg)
+                }
+            }
+        }
+
+
+        //父组件
+        var vm = new Vue({
+            el:"#app",
+            //将子组件传递过来的数据保存在父组件的data里
+            data:{
+                dataMsgFromSon:null
+            },
+            methods:{
+                show(data){
+                    // console.log("调用了父组件上的show方法:"+data)
+                    this.dataMsgFromSon = data
+                }
+            },
+            components:{
+                component2:com2
+            }
+        })
+    </script>
+</body>
+</html>

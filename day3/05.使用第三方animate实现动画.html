@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="./lib/animate.css">
+    <!-- 可在这个网址查看 https://daneden.github.io/animate.css/ -->
+    <!-- 入场bounceIn 离场bounceOut -->
+    
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="tuggle" v-on:click="flag =! flag">
+        <!-- <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOutDown">
+            <h3 v-if="flag">this is h3</h3>
+        </transition> -->
+        <!-- 或 -->
+        <!-- <transition enter-active-class="bounceIn" leave-active-class="bounceOutDown">
+                <h3 v-if="flag" class= "animated">this is h3</h3>
+        </transition> -->
+        <!-- 设置动画时间 -->
+        <!-- <transition enter-active-class="bounceIn" leave-active-class="bounceOutDown" :duration="500">
+                <h3 v-if="flag" class= "animated">this is h3</h3>
+        </transition> -->
+        <!-- 分别设置动画的入场时间和离场时间 -->
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOutDown" :duration="{enter:100, leave:5000}">
+                <h3 v-if="flag" class= "animated">this is h3</h3>
+        </transition>
+    
+
+
+        <hr>
+        
+        
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                flag:false,
+                flag2:false
+            },
+            methods:{
+
+            }
+        })
+    </script>
+    
+</body>
+</html>

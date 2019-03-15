@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 用v-cloak能够解决差值表达式闪烁的问题 -->
+        <p v-cloak>{{msg}}</p>
+        <!-- 默认v-text没有闪烁问题-->
+        <h4 v-text="msg"></h4>
+        <div v-html="msg2"></div>
+        <!-- v-bind是vue中用于绑定属性的指令 -->
+        <!-- <input type="button" value="按钮" v-bind:title="mytitle +' ' + '123'"> -->
+        <!-- v-bind:可以简写成: -->
+        <input type="button" value="按钮" :title="mytitle ">
+        <!-- v-on的缩写是@ -->
+        <input type="button" value="按钮2" v-on:click="show">
+        <input type="button" value="按钮3" v-on:mouseover="show">
+
+    </div>
+    <script>
+        var rm = new Vue({
+            el:"#app",
+            data:{
+                msg:"123",
+                msg2:"<h1>哈哈哈哈</h1>",
+                mytitle:"this is self_defined"
+            },
+            methods:{
+                show:function(){
+                    alert("hello,smile")
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>

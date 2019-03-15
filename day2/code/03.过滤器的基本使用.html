@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 2用多个过滤器 -->
+        <!-- 1过滤器传参数 -->
+        <p>{{ msg | msgFormat("财财","大财") | test}}</p>
+    </div>
+
+    <script>
+        Vue.filter("msgFormat", function(msg,args,args2){
+            //replace(1,2),第一个参数，除了可以为字符串之外，还可以定义一个正则。
+            return msg.replace(/财/g,args+args2)
+        })
+
+        Vue.filter("test", function(msg){
+            return msg + "   ======="
+        })
+
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"恭喜发财,恭喜发财,财源广进"
+            },
+            methods:{}
+        })
+    </script>
+</body>
+</html>
+
+<!-- 过滤器调用格式{{ name | 过滤器名称 }} -->
+<!-- 过滤器的定义语法 -->
+<!-- Vue.filter("过滤器的名称",function()) -->
+<!-- 过滤器中function的第一个参数已经规定死了，永远都是过滤器管道符前面传递过来的数据 -->
+<!-- Vue.filter("过滤器的名称", function(data){return data + "123"}) -->

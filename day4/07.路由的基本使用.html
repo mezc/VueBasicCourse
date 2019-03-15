@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <!-- 安装vue-router路由模块 -->
+    <!-- 导入这个包后吗，url后缀多 #/ -->
+    <script src="./lib/vue-router-3.0.1.js"></script>
+    <style>
+        .router-link-active,.myactive{
+            color:red;
+            font-weight: 800;
+            font-style:italic;
+            font-size:10px;
+            text-decoration: underline;
+            background-color: green;
+        }
+        
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform:translateX(140px);
+        }
+
+        .v-leave,
+        .v-leave-active{
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/login" tag="span">登录</router-link>
+        <router-link to="/register" tag="span">注册</router-link>
+        <!-- <a href="#/login">登录</a> -->
+        <!-- <a href="#/register">注册</a> -->
+        <!-- 路由容器,由vue-router提供的元素，路由规则匹配到的组件会展示到router-view,可以把它认作一个占位符 -->
+        <transition mode="out-in">
+            <router-view></router-view>
+        </transition>
+    </div>
+    <script>
+        // 创建子组件模版对象
+        var sonLogin = {
+            template:"<h1>登录组件</h1>"
+        }
+
+        var sonRegister = {
+            template:"<h1>注册组件</h1>"
+        }
+        // 创建一个路由对象，当导入vue-router之后，在全局对象中，就有一个路由构造函数，VueRouter
+        var routerObj = new VueRouter({
+            // route表示【路由匹配规则】
+            routes:[
+                //路由匹配规则
+                // 每个路由有两个属性
+                // 属性1path，表示监听哪个路由地址
+                // 属性2component,表示如果路由前面匹配到path，则展示component对应的那个组件
+                // component的属性值，必须是一个组件模版对象，不能是组件的引用名称
+                {path:"/login",component:sonLogin},
+                {path:"/register",component:sonRegister}
+            ],
+            linkActiveClass:'myactive'
+        })
+
+        var vm = new Vue({
+            el:"#app",
+            data:{},  
+            methods:{},
+            router:routerObj//将路由器和vm实例关联,用来监听url地址变化，然后展示对应的组件。
+        })
+    </script>
+    
+</body>
+</html>
