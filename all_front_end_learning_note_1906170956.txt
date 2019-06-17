@@ -1,3 +1,144 @@
+1.v-bind 是单向数据绑定，简写 ”:“,v-model是双向数据绑定
+
+v-if ,v-show
+
+v-if=""
+如果为true，相当于appendChild
+false：相当于removeChild
+
+v-show:
+true:oDiv.style.display = "block
+false:oDiv.style.display = "none"
+
+v-on:原生js的事件名=”逻辑“
+v-on:原生js事件名=“方法名”，该方法必须在methods
+简写：@
+
+v-bind:xxx=''
+v-bind：标签中原生属性
+v-bind:自定义属性
+
+v-model 只能应用在表单控件 ui控件中
+
+2.webpack安装在开发环境下:cnpm i webpack@3 --save-dev
+
+3.webpack:
+//1.执行webpack时识别webpack.config.js
+//2.使用其他文件名，更改脚本
+scripts:{
+    "dev":"webpack --config ./webpack.dev.config.js"
+}
+//3.css-loader:
+cnpm i css-loader style-loader -D
+//4.处理图片的loader
+cnpm i url-loader file-loader -D
+//处理图片时，设置合理的limit很有必要
+limit小于图片大小时，显示的是url 
+//5.less-loader:
+cnpm i less-loader less -D
+//6.配置dist
+在config.js中，具体见 05less-loader/webpack.dev.config.jss
+//7.html-webpack-plugin:
+cnpm i html-webpack-plugin@2 -D
+参照物里的index.html自动打包到dist里，并且在html中不用导入build.js
+//8.webpack-dev-server:
+webpack-dev-server:
+--open 自动打开浏览器
+--hot 热更新，不在刷新的情况下替换css样式
+--inline 自动刷新
+--port 9999 指定端口
+--process 显示编译进度
+//在package.json文件中配置：
+"scripts":{
+    "dev":"webpack-dev-server --open --hot --inline --config ./webpack.dev.config.js",
+    "pro":"webpack --config ./webpack.pro.config.js"
+}
+//npm run dev 
+//9es6解析
+cnpm i babel-core babel-loader@7 panel-preset-env babel-plugin-transform-runtime -D
+//在webpack-dev-config.js文件中配置：
+loader:{
+    //处理es6，7，8
+    test:/\.js$/,
+    loader:"babel-loader",
+    options:{
+        presets:["env"],
+        plugins:["transform-runtime"]
+    }
+}
+//10解析.vue的loader：
+cnpm i vue-loader@14 vue-template-compiler@2 -D
+//配置vue文件：
+{
+    test:/\.vue$/,
+    loader:"vue-loader"
+}
+//main.js:
+new Vue({
+    el:"#app",
+    render:c=>c(App)
+})
+
+
+4.$emit $on 必须绑定一个公共的是实例，才能够触发。
+新建
+//公有vue实例
+var Event = new Vue();
+
+5.vue-cli,需要安装全局
+cnpm i -g vue-cli
+
+//拉取vue-cli 2,全局安装桥接工具
+cnpm i -g @vue/cli-init
+//vue-cli@2:
+
+//vue init 模版名 项目名
+//vue init webpack my-project
+
+
+//vue-cli 支持的模块有：
+webpack,webpack-simple,browserify,browserify-simple,pwa,simple
+
+6.vue-cli相关文件介绍：
+//build文件夹：里面对webpack开发和打包的相关配置，包括入口文件，输出文件，使用的模块
+
+//config文件夹：指定开发和打包的静态资源，要压缩的文件类型，开发使用的端口号，开发使用虚拟服务器跨域请求api
+
+//.editorconfig:代码规范文件，规定使用空格/tab缩进，缩进长度是两位四位的代码风格
+
+//src
+//main.js:整个项目的入口文件
+//App.vue:入口组件
+//router:路由模块
+//components:公有组件
+//assets:放置每个组件的静态资源|（static放置的是公有静态资源）
+
+//router/index.js:
+//此时的router是局部对象，必须使用Vue.use(Router),就可以在任意的组件中使用this.$router,this.$route
+
+//设置顺序
+//1新建是有组件文件夹
+//1.1创建只有组件
+//2router/index.js下配置路由
+//3App.vue入口组件中配置
+
+//config/index.js:整个文件的配置入口
+
+//build/webpack.base.conf.js
+//处理后缀名：
+//resolve:{
+    extensions:[
+        ".js",".vue",".json"//以这几个后缀名可以省略不写
+    ],
+    alias:{//以一个别名代表一个路径
+        "vue$":"vue/dist/vue.esm.js",
+        "@":resolve("src")
+    }
+}
+
+
+---------------------------------------------------------------
+
 webpack-dev-server@2.9.1
 webpack@3.4.1 
 
@@ -349,3 +490,258 @@ linkActiveClass:"mui-active"//覆盖默认路由高亮的类
 
 32.在组件中引入子组件：
 
+--------------------------------------------------
+
+1.数据数组的操作：
+//1.1数组的变异方法
+不能用下标操作
+push 末尾添加
+pop 末尾删除
+shift 行首删除
+unshift 行首添加
+splice 截取-----splice(下标，删除的条数，在当前位置 增加的内容)
+sort 排序
+reverse 取反
+//1.2使用Vue.set(vm.msg,下标，变更的内容)
+//1.3使用vm.$set(vm.msg,下标，变更的内容)
+
+2.不想用div渲染，可以换成<template>包裹
+3.更新字典数据，用Vue.set(vm.msg,"","")  或  vm.$set(vm.msg,"","")
+
+4.h5编码规则，table>tbody,tbody里只能放tr
+<tbody><tr is="component"></tr>/tobody>
+<ul><li is="component"></li></ul>
+<select><option is = "component"></option></select>
+
+5.组件数据，要求是一个函数要有返回值，data(){return}或data:function(){
+    return
+}
+
+6.获取dom节点，设置<div ref="refName"></div>，获取this.$refs.refName.inneHTML
+
+7.父子组件传数据：父组件中设置参数，传递给子组件，子组件用props:[""]接收，子组件不能修改父组件中的参数，否则会报错。可以通过在子抓紧设置自己的data，data(){return {
+    number
+}},更改里面的数据
+
+8.props特性
+//8.1参数不会展示在dom标签中
+//8.2可以在子组件中通过差值表达式获取参数的值
+非props特性：
+//8.3参数会显示在dom标签中
+//8.4不能直接获取参数的值
+
+9.监听原生事件用@click.native
+
+10.非父子组件间的传值：
+Vue.prototype.bus = new Vue()
+
+11.vue作用域插槽
+//11.1子组件用<slot></slot>封装
+//11.2父组件用<template slot-scope="变量名">
+{{变量名.参数}}
+</template>
+
+12.动态组件，vue自带：
+<component :is></component>
+
+13.动画效果原理:通过在dom上增加样式来实现
+<transition name="fade"></transition>
+//如果不写name，则默认为v-enter,v-enter-active
+////出现
+//第1针：创建fade-enter,fade-enter-active
+//第2针，销毁fade-enter,创建fade-enter-to
+//第3针，销毁fade-enter-active,销毁fade-enter-to 
+////消失
+//第1针：创建fade-leave,fade-leave-active
+//第2针，销毁fade-leave,创建fade-leave-to
+//第3针，销毁fade-leave-active,销毁fade-leave-to
+.v-enter,.v-leave-to{
+    opacity:0
+}
+.v-enter-active,.v-leave-active{
+    transition:opacity 1s;
+}
+
+14.列表过渡：
+<transition-group></transition-group>
++<style></style>
+
+15.transition中的钩子函数：
+<transition
+        name="fade"
+        @before-enter="handleBeforeEnter"
+        @enter = "handleEnter"
+        @after-enter="handleAfterEnter"
+        >
+methods:{
+    handleBeforeEnter(el){},
+    handleEnter(el,done){
+        done()
+    },
+    handleAfterEnter(el){}
+}
+
+16.配置ssh
+//16.1步骤1.检查是否已经存在SSH Key
+ls -al ~/.ssh
+//16.1.1 ssh-keygen -t rsa -C "your_email@example.com"
+//16.1.2 pbcopy < ~/.ssh/id_rsa.pub 获得的SSH Key粘贴到
+//16.2 打开GitLab, 登录->点击右上角的用户头像->点击settings->在settings里找到SSH的设置->点击“ADD SSH KEY”按钮添加->将已经获得的SSH Key粘贴到“Key”，标题可以随便取，这样就保持了本地与服务器端的联系.
+
+17.创建项目
+npm install --global vue-cli
+vue init webpack my-project
+cd my-project
+npm install
+npm run dev
+
+18.样式依赖:stylus
+cnpm i stylus -S
+cnpm i stylus-loader -S
+
+19./* 使用stlus样式:lang="stylus"，要使该样式只对class="header"作用的话，可加上scoped */
+
+20.reset.css里面：
+html {overflow-x: hidden;height: 100%;font-size: 50px;-webkit-tap-highlight-color: transparent;}
+相对50px，1rem = html font-size = 50px，所以,43px =43 * 1/50px=43/50=0.86rem
+,设计稿是两倍尺寸，所以代码里的像素要除以2，再除以50px=rem单位,或者两倍尺寸除以100px
+
+21.定义全局css样式，并在stylus中使用
+//在src/assets/style/新建varibles.styl
+//样式里面引入样式要用@import
+//“@” 代表src这个路径，如果在css中引入其他的css，又要使用@的话要变成："~@"
+
+22.自定义路径代表符:
+//22.1 build/webpack.base.conf.js/
+//22.2 resolve:{
+    alias:{
+        "styles":resolve("src/assets/styles")
+    }
+}
+
+23.企业级开发，不同功能创建不同分支
+
+24.轮播图组件
+https://github.com/surmon-china/vue-awesome-swiper
+cnpm i vue-awesome-swiper@2.6.7 -S
+
+25.全局使用vue-awesome-swiper,main.js
+import Vue from 'vue'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+
+// require styles
+import 'swiper/dist/css/swiper.css'
+
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
+
+//图片地址
+http://piao.qunar.com/touch/
+
+26.将长字符串用省略号显示
+ellipsis()
+    overflow:hidden
+    white-space:nowrap
+    text-overflow:ellipsis
+
+
+27.vue中发送ajax的方法：
+vue-resource
+axios(推荐使用)
+//cnpm i axios -S
+//axios使用:
+//27.1import axios from "axios
+//27.2使用生命周期函数mounted (){}
+//27.2.1mounted (){
+    this.getHomeInfo()
+}
+//static放置静态文件/mock文件夹/index.json,只有static里的内容能被外部访问到
+//防止被提交到仓库，在.gitignore中添加static/mock
+//在home.vue中写axios请求，可以传给每一个子组件
+
+28.对api下json的请求转发到static/mock/xx.json下，使用vue中的proxy代理
+//config文件夹/index.js文件
+////dev:{
+    proxyTable:{
+        "/api":{
+            target:"http://localhost:8080",
+            pathRewrite:{
+                //一旦请求是以api开头，转发到'/static/mock下'
+                "^/api":"/static/mock"
+            }
+        }
+    }
+}
+
+29.v-if="list.length",当list为空数组，length为0， v-if=“false”
+30.页面跳转
+<router-link></router-link>
+
+31.解决列表区域不能拖动，引入第三方包，better-scroll
+31.1 cnpm install better-scroll --save
+31.2 使用参考文档：https://github.com//ustbhuangyi/better-scroll
+31.3 使用better-scroll必须符合下列结构：
+    <div>
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+31.4
+    import BScroll from 'better-scroll'
+    const wrapper = document.querySelector('.wrapper')
+    const scroll = new BScroll(wrapper)//创建一个新BScroll的实例，接收一个dom元素（使用ref获取dom元素）
+
+32.发送ajax的步骤
+32.1在最外面的页面建立，import axios from "axios"
+32.2 mounted(){
+    this.getCityInfo()
+}
+33.大量数据的传递用vuex
+33.1安装cnpm install vuex --save
+33.2 创建store，src/store/index.js
+【
+    import Vue from "vue"
+import Vuex from "vuex"
+Vue.use(Vuex)
+export default new Vuex.Store({
+    state:{
+        city:"北京"
+    }
+})
+】
+33.3 main.js里import
+调用state，首先调用actions，再调用mutations
+33.4
+//state:储存公用数据
+//mutations:储存同步数据的改变
+//action:异步数据
+
+34.webpack默认不支持通过ip访问，
+在package.json里配置，
+"scripts":{"dev":--host 0.0.0.0}
+    ifconfig,获取inet本机ip -> 10.71.41.48
+    输入10.71.41.48:8080访问
+
+35.解决手机端不支持promise,解决白屏问题
+    cnpm install babel-polyfill --save
+    在main.js中,import 'babel-polyfill'
+
+36.打包编译上线过程
+    >命令行：npm run build -> 生成的dist文件夹，就是最终要上线的代码。
+    >将dist里文件放在后端服务器的根目录下即可。
+    >修改dist文件所放的路径：config - index.js - build:{assetsPublicPath:'/project'}
+    则相应打开的路径为：localhost/project
+
+37.dist详解：
+    >static
+        >css
+        >js
+            >app.js > 各个逻辑代码
+            >manifest.js > 打包的配置文件
+            >vendor.js > 各个组件公用的代码
+
+38.vue知识点
+    >vue-rooter
+    >vuex
+    >vue服务端渲染
